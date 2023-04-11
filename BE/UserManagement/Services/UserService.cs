@@ -18,22 +18,23 @@ namespace UserManagement.Services
             _mapper = mapper;
         }
 
-        public Task<User> CreateUser(IncomingUser incomingUser)
+        public async Task<User> CreateUser(IncomingUser incomingUser)
         {
             var user = _mapper.Map<User>(incomingUser);
             user.UserId = Guid.NewGuid();
             user.Password = BCrypt.Net.BCrypt.HashPassword(incomingUser.Password);
 
-            var exist = _unitOfWork.Users.GetById(user.UserId);
-            if (exist.Result == null)
+            var existingId = await _unitOfWork.Users.GetById(user.UserId);
+            var existingUsername = await _unitOfWork.Users.FindAsync(u => u.UserName.Equals(user.UserName));
+            if (existingId == null && existingUsername == null)
             {
                 _unitOfWork.Users.Insert(user);
                 _unitOfWork.SaveChanges();
-                return Task.FromResult(user);
+                return user;
             }
             else
             {
-                throw new UserAlreadyExistsException("User with this ID already exists.");
+                throw new UserAlreadyExistsException("User with this username(or Id) already exists.");
             }
             
         }

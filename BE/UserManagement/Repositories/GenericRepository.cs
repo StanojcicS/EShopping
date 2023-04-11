@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using UserManagement.Repositories.Contracts;
 
 namespace UserManagement.Repositories
@@ -42,5 +43,9 @@ namespace UserManagement.Repositories
             return null;
         }
 
+        public async Task<TEntity?> FindAsync(Expression<Func<TEntity, bool>> filter)
+        {
+            return await _context.Set<TEntity>().FirstOrDefaultAsync(filter);
+        }
     }
 }
