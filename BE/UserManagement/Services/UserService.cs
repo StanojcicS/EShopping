@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
-using Common.Exceptions;
-using UserManagement.DataAccess;
-using UserManagement.Models.DataBase;
-using UserManagement.Models.Incoming;
+using BCrypt.Net;
+using Common.Exceptions.CustomExceptions;
+using System.Security.Claims;
+using UserManagement.Common.Models.DataBase;
+using UserManagement.Common.Models.Incoming;
+using UserManagement.Database.DataAccess;
 using UserManagement.Services.Contracts;
 
 namespace UserManagement.Services
@@ -11,9 +13,11 @@ namespace UserManagement.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IJwtHelper _jwtHelper;
 
-        public UserService(IUnitOfWork unitOfWork, IMapper mapper)
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper, IJwtHelper jwtHelper)
         {
+            _jwtHelper = jwtHelper;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
@@ -39,6 +43,19 @@ namespace UserManagement.Services
             
         }
 
+        public async Task<string> Login(string username, string password)
+        {
+            var user = await _unitOfWork.Users.FindAsync(u => u.UserName.Equals(username));
+            if (user != null && BCrypt.Net.BCrypt.Verify(password, user.Password))
+            {
+                List<Claim> claims = new List<Claim>();
+                claims.Add(new Claim(ClaimTypes.Role, user.UserType.ToString()));
+                claims.Add(new Claim("UserId", user.UserId.ToString()));
+                return _jwtHelper.GetNewJwtToken(claims, user.UserId.ToString());
+            }
+            throw new InvalidCredentialsException("There is no user with this username and password.");
+        }
+
         public Task<User> DeleteUser(User user)
         {
             throw new NotImplementedException();
@@ -54,9 +71,41 @@ namespace UserManagement.Services
             throw new NotImplementedException();
         }
 
-        public Task<User> UpdateUser(User user)
+
+
+        public async Task<User> UpdateUser(User user)
         {
-            throw new NotImplementedException();
+            var userToBeUpdated = await _unitOfWork.Users.FindAsync(u => u.UserName == user.UserName);
+
+            User updatedUser = new User()
+            {
+                UserId = userToBeUpdated.UserId,
+                UserName = userToBeUpdated.UserName,
+                Adress = userToBeUpdated.Adress,
+                DateOfBirth = userToBeUpdated.DateOfBirth,
+                Password = userToBeUpdated.Password,
+                Name = userToBeUpdated.Name,
+                LastName = userToBeUpdated.LastName,
+                UserType = userToBeUpdated.UserType,
+                ProfilePicture = userToBeUpdated.ProfilePicture,
+                Verified = userToBeUpdated.Verified,
+                Email = userToBeUpdated.Email
+            };
+
+            await _unitOfWork.Users.Update(updatedUser, updatedUser.UserId);
+            await _unitOfWork.SaveChanges();
+
+            return updatedUser;
+        }
+
+        public async Task<string> Verify(string username)
+        {
+            var existingUser = await _unitOfWork.Users.FindAsync(u => u.UserName.Equals(username));
+            if(existingUser == null)
+                throw new InvalidUsernameException("There is no user with the given username.");
+            existingUser.Verified = 1;
+            var verifiedUser = UpdateUser(existingUser);
+            return verifiedUser.Result.UserName;
         }
     }
 }

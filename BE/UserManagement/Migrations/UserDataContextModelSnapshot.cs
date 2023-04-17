@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using UserManagement.Data;
+using UserManagement.Database.DataAccess;
 
 #nullable disable
 
@@ -22,7 +22,7 @@ namespace UserManagement.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("UserManagement.Models.DataBase.User", b =>
+            modelBuilder.Entity("UserManagement.Common.Models.DataBase.User", b =>
                 {
                     b.Property<Guid>("UserId")
                         .ValueGeneratedOnAdd()
@@ -59,6 +59,9 @@ namespace UserManagement.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Verified")
                         .HasColumnType("int");
 
                     b.HasKey("UserId");

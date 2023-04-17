@@ -1,5 +1,5 @@
-﻿using UserManagement.Models.DataBase;
-using UserManagement.Models.Incoming;
+﻿using UserManagement.Common.Models.DataBase;
+using UserManagement.Common.Models.Incoming;
 
 namespace UserManagement.Services.Contracts
 {
@@ -10,6 +10,8 @@ namespace UserManagement.Services.Contracts
         Task<User> DeleteUser(User user);
         Task<User> GetUserById(Guid id);
         Task<User> GetAll();
+        Task<string> Login(string username, string password);
+        Task<string> Verify(string username);
 
     }
 }

@@ -12,8 +12,8 @@ using UserManagement.Database.DataAccess;
 namespace UserManagement.Migrations
 {
     [DbContext(typeof(UserDataContext))]
-    [Migration("20230411201519_initialMigration1")]
-    partial class initialMigration1
+    [Migration("20230411204829_verifiedUser")]
+    partial class verifiedUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,6 +63,9 @@ namespace UserManagement.Migrations
 
                     b.Property<int>("UserType")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Verified")
+                        .HasColumnType("bit");
 
                     b.HasKey("UserId");
 

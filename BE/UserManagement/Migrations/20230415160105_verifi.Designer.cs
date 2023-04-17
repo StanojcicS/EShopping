@@ -12,8 +12,8 @@ using UserManagement.Database.DataAccess;
 namespace UserManagement.Migrations
 {
     [DbContext(typeof(UserDataContext))]
-    [Migration("20230411201519_initialMigration1")]
-    partial class initialMigration1
+    [Migration("20230415160105_verifi")]
+    partial class verifi
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace UserManagement.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("UserManagement.Models.DataBase.User", b =>
+            modelBuilder.Entity("UserManagement.Common.Models.DataBase.User", b =>
                 {
                     b.Property<Guid>("UserId")
                         .ValueGeneratedOnAdd()
@@ -62,6 +62,9 @@ namespace UserManagement.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Verified")
                         .HasColumnType("int");
 
                     b.HasKey("UserId");

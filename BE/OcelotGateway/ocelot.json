@@ -1,0 +1,40 @@
+{
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:7264"
+  },
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/gateway/user/register",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/User",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7195
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/user/login",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/login",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7195
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/users/{username}/verify",
+      "UpstreamHttpMethod": [ "Patch" ],
+      "DownstreamPathTemplate": "/users/{username}/verify",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7195
+        }
+      ]
+    }
+  ]
+}
