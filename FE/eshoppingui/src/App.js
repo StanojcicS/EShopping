@@ -1,21 +1,25 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './App.css';
-import { Login } from "./components/Login"
-import { Register } from "./components/Register"
+import { Login } from "./components/Login";
+import { Register } from "./components/Register";
+import { Route, Routes } from "react-router-dom";
+import { PrivateRoute } from "./components/PrivateRoutes";
+import { MyProfile } from './components/MyProfile';
+
 
 function App() {
-  const [currentForm, setCurrentForm] = useState('register');
-
-  const toggleForm = (formName) => {
-    setCurrentForm(formName);
-  }
-
   return (
-    <div className="App">
-      {
-        currentForm === "register" ? <Register onFormSwitch={toggleForm}/> : <Login onFormSwitch={toggleForm}/>
-      }
-    </div>
+    <>
+      <Routes>
+        <Route path='/' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/my-profile' 
+               element={<PrivateRoute 
+               allowedRoles={["Admin", "Seller", "Buyer"]}  
+               component={MyProfile} />} />
+      </Routes>
+    </>
   );
 }
 

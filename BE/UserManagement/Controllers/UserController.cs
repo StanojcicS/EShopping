@@ -16,7 +16,7 @@ namespace UserManagement.Controllers
             _userService = userService;
         }
         [HttpPost]
-        public async Task<ActionResult> User(IncomingUser user)
+        public async Task<ActionResult> User([FromForm] RegisterUser user)
         { 
             return Ok(await _userService.CreateUser(user));
         }

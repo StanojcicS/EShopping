@@ -15,6 +15,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowAll", builder =>
+//    {
+//        builder.AllowAnyOrigin()
+//        .AllowAnyMethod()
+//        .AllowAnyHeader();
+//    });
+//});
+
 builder.Services.AddDbContext<UserDataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -47,6 +57,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJwtHelper, JwtHelper>();
+builder.Services.AddScoped<IUserHelper, UserHelper>();
 
 
 
@@ -62,13 +73,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
-//app.UseRouting();
 app.UseAuthorization();
-//app.UseEndpoints(endpoints =>
-//{
-//    endpoints.MapControllers();
-//});
 
+//app.UseCors("AllowAll");
 
 app.MapControllers();
 app.UseMiddleware<GlobalExceptionHandler>();

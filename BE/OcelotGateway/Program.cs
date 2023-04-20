@@ -3,6 +3,16 @@ using Ocelot.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+    });
+});
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
@@ -25,5 +35,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
-app.UseOcelot(); 
+
+app.UseCors("AllowAll");
+app.UseOcelot();
 app.Run();
