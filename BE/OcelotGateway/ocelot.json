@@ -4,7 +4,7 @@
   },
   "Routes": [
     {
-      "UpstreamPathTemplate": "/gateway/user/register",
+      "UpstreamPathTemplate": "/register",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/User",
       "DownstreamHostAndPorts": [
@@ -15,9 +15,9 @@
       ]
     },
     {
-      "UpstreamPathTemplate": "/gateway/user/login",
+      "UpstreamPathTemplate": "/login",
       "UpstreamHttpMethod": [ "Post" ],
-      "DownstreamPathTemplate": "/login",
+      "DownstreamPathTemplate": "/api/User/login",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -26,9 +26,20 @@
       ]
     },
     {
-      "UpstreamPathTemplate": "/gateway/users/{username}/verify",
+      "UpstreamPathTemplate": "/users/{username}/verify",
       "UpstreamHttpMethod": [ "Patch" ],
-      "DownstreamPathTemplate": "/users/{username}/verify",
+      "DownstreamPathTemplate": "/api/User/users/{username}/verify",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7195
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/users/{username}/update",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/User/users/{username}/update",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",

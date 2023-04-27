@@ -63,3 +63,36 @@ select {
   color:#2fad05;
   margin-bottom: 5px;
 }
+
+.my-profile-username-label{
+  font-size: 34px;
+}
+
+.my-profile-form-container{
+  color:white;
+}
+
+.my-profile-table{
+  width: 600px;
+  padding: 5rem;
+  text-align: left;
+}
+
+.profile-picture{ 
+  margin-top: 5px;
+  width: 170px;
+  height: 90px;
+}
+
+.profile-picture-container{
+  text-align: center;
+  width: 180px;
+  height: 100px;
+  border: 1px solid white;
+  border-radius: 10px;
+}
+
+.update-button{
+  text-align: center;
+  width: 400px;
+}

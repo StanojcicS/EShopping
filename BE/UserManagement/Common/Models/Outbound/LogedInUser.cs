@@ -12,7 +12,7 @@ namespace UserManagement.Common.Models.Outbound
         public DateTime DateOfBirth { get; set; }
         public string Adress { get; set; }
         public string UserType { get; set; }
-        public byte[]? ProfilePicture { get; set; }
+        public string ProfilePicture { get; set; }
 
     }
 }

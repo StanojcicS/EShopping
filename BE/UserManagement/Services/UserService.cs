@@ -3,7 +3,7 @@ using BCrypt.Net;
 using Common.Exceptions.CustomExceptions;
 using System.Security.Claims;
 using UserManagement.Common.Models.DataBase;
-using UserManagement.Common.Models.Incoming;
+using UserManagement.Common.Models.Inbound;
 using UserManagement.Common.Models.Outbound;
 using UserManagement.Database.DataAccess;
 using UserManagement.Services.Contracts;
@@ -59,6 +59,7 @@ namespace UserManagement.Services
                 claims.Add(new Claim("UserId", user.UserId.ToString()));
                 var token = _jwtHelper.GetNewJwtToken(claims, user.UserId.ToString());
                 var logedInUser = _mapper.Map<LogedInUser>(user);
+                logedInUser.ProfilePicture = await _userHelper.ParseProfilePictureToString(user.ProfilePicture);
                 logedInUser.Token = token;
                 return logedInUser;
             }
@@ -82,29 +83,25 @@ namespace UserManagement.Services
 
 
 
-        public async Task<User> UpdateUser(User user)
+        public async Task<User> UpdateUser(UpdateUser user)
         {
-            var userToBeUpdated = await _unitOfWork.Users.FindAsync(u => u.UserName == user.UserName);
+            var userCurrentValues = await _unitOfWork.Users.FindAsync(u => u.UserName == user.Username);
+            var userUpdatedValues = _mapper.Map<User>(user);
+            userUpdatedValues.UserId = userCurrentValues.UserId;
+            userUpdatedValues.UserName = userCurrentValues.UserName;
+            userUpdatedValues.Password = userCurrentValues.Password;
+            userUpdatedValues.UserType = userCurrentValues.UserType;
+            userUpdatedValues.Verified = userCurrentValues.Verified;
 
-            User updatedUser = new User()
-            {
-                UserId = userToBeUpdated.UserId,
-                UserName = userToBeUpdated.UserName,
-                Adress = userToBeUpdated.Adress,
-                DateOfBirth = userToBeUpdated.DateOfBirth,
-                Password = userToBeUpdated.Password,
-                Name = userToBeUpdated.Name,
-                LastName = userToBeUpdated.LastName,
-                UserType = userToBeUpdated.UserType,
-                ProfilePicture = userToBeUpdated.ProfilePicture,
-                Verified = userToBeUpdated.Verified,
-                Email = userToBeUpdated.Email
-            };
+            if (user.ProfilePicture != null)
+                userUpdatedValues.ProfilePicture = await _userHelper.ParseProfilePictureToBytes(user.ProfilePicture);
+            else
+                userUpdatedValues.ProfilePicture = userCurrentValues.ProfilePicture;
 
-            await _unitOfWork.Users.Update(updatedUser, updatedUser.UserId);
+            await _unitOfWork.Users.Update(userUpdatedValues, userUpdatedValues.UserId);
             await _unitOfWork.SaveChanges();
 
-            return updatedUser;
+            return userUpdatedValues;
         }
 
         public async Task<string> Verify(string username)
@@ -113,8 +110,11 @@ namespace UserManagement.Services
             if(existingUser == null)
                 throw new InvalidUsernameException("There is no user with the given username.");
             existingUser.Verified = 1;
-            var verifiedUser = UpdateUser(existingUser);
-            return verifiedUser.Result.UserName;
+
+            await _unitOfWork.Users.Update(existingUser, existingUser.UserId);
+            await _unitOfWork.SaveChanges();
+
+            return existingUser.UserName;
         }
     }
 }

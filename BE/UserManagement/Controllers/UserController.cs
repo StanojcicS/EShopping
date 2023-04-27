@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UserManagement.Common.Models.Incoming; 
+using UserManagement.Common.Models.Inbound; 
 using UserManagement.Services.Contracts;
 
 namespace UserManagement.Controllers
@@ -22,15 +22,21 @@ namespace UserManagement.Controllers
         }
 
         [HttpPost]
-        [Route("/login")]
+        [Route("login")]
         public async Task<ActionResult> Login(LoginUser user)
         {
-
             return Ok(await _userService.Login(user.Username, user.Password));
         }
 
+        [HttpPut]
+        [Route("users/{username}/update")]
+        public async Task<ActionResult> Update([FromForm] UpdateUser user)
+        {
+            return Ok(await _userService.UpdateUser(user));
+        }
+
         [HttpPatch]
-        [Route("/users/{username}/verify")]
+        [Route("users/{username}/verify")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Verify(string username)
         {

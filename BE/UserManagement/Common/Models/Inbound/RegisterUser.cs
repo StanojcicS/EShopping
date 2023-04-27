@@ -1,6 +1,6 @@
 ﻿using UserManagement.Common.Enumerations;
 
-namespace UserManagement.Common.Models.Incoming
+namespace UserManagement.Common.Models.Inbound
 {
     public class RegisterUser
     {
@@ -12,6 +12,6 @@ namespace UserManagement.Common.Models.Incoming
         public DateTime DateOfBirth { get; set; }
         public string Adress { get; set; }
         public string UserType { get; set; }
-        public IFormFile ProfilePicture { get; set; }
+        public IFormFile? ProfilePicture { get; set; }
     }
 }

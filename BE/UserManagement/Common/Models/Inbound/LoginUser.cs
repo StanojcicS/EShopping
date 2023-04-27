@@ -1,4 +1,4 @@
-﻿namespace UserManagement.Common.Models.Incoming
+﻿namespace UserManagement.Common.Models.Inbound
 {
     public class LoginUser
     {
