@@ -13,6 +13,7 @@ namespace UserManagement.Common.Models.Outbound
         public string Adress { get; set; }
         public string UserType { get; set; }
         public string ProfilePicture { get; set; }
+        public string Verified { get; set; }
 
     }
 }

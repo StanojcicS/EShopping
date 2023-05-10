@@ -26,6 +26,17 @@
       ]
     },
     {
+      "UpstreamPathTemplate": "/facebooklogin",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/User/facebooklogin",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7195
+        }
+      ]
+    },
+    {
       "UpstreamPathTemplate": "/users/{username}/verify",
       "UpstreamHttpMethod": [ "Patch" ],
       "DownstreamPathTemplate": "/api/User/users/{username}/verify",
@@ -40,6 +51,17 @@
       "UpstreamPathTemplate": "/users/{username}/update",
       "UpstreamHttpMethod": [ "Put" ],
       "DownstreamPathTemplate": "/api/User/users/{username}/update",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7195
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/users/sellers",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/User/users/sellers",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",

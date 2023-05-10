@@ -28,6 +28,14 @@ namespace UserManagement.Controllers
             return Ok(await _userService.Login(user.Username, user.Password));
         }
 
+        [HttpPost]
+        [Route("facebooklogin")]
+        public async Task<ActionResult> FacebookLogin(FacebookLoginUser user)
+        {
+            return Ok(await _userService.FacebookLogin(user));
+        }
+
+
         [HttpPut]
         [Route("users/{username}/update")]
         public async Task<ActionResult> Update([FromForm] UpdateUser user)
@@ -38,9 +46,17 @@ namespace UserManagement.Controllers
         [HttpPatch]
         [Route("users/{username}/verify")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> Verify(string username)
+        public async Task<ActionResult> Verify(VerifyUserModel user)
         {
-            return Ok(await _userService.Verify(username));
+            return Ok(await _userService.Verify(user));
+        }
+
+        [HttpGet]
+        [Route("users/sellers")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> GetSellers()
+        {
+            return Ok(await _userService.GetSellers());
         }
     }
 }

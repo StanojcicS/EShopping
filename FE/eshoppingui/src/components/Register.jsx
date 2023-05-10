@@ -1,8 +1,9 @@
 import React, {useState} from "react"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {ToastContainer, toast} from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css';
 import { RegisterUser } from "../services/UserService"; 
+import FacebookLogin from "react-facebook-login";
 
 export const Register = () => {
     const [username, setUsername] = useState('');
@@ -15,7 +16,7 @@ export const Register = () => {
     const [adress, setAdress] = useState('');
     const [userType, setUserType] = useState('seller');
     const [profilePicture, setProfilePicture] = useState(null);
- 
+    const navigate = useNavigate();
 
     const handleAlert = (message, type) => {
         if(type === "success")
@@ -26,8 +27,12 @@ export const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await RegisterUser(username, email, password, passwordRepeat, name, lastname, dateOfBirth, adress, userType, profilePicture, handleAlert);
+        await RegisterUser(username, email, password, passwordRepeat, name, lastname, dateOfBirth, adress, userType, profilePicture, handleAlert, navigate);
         
+    }
+
+    const responseFacebook = (response) => {
+        console.log("login result", response);
     }
 
     return(
@@ -66,6 +71,12 @@ export const Register = () => {
                     Already have an account? Log in here.
                 </Link>
             </button>
+            <FacebookLogin
+            appId="756599152603732"
+            autoLoad={true}
+            fields="name,email,picture"
+            returnScopes={true} 
+            callback={responseFacebook} />
         </div>
     )
 }

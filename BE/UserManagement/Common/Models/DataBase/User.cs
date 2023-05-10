@@ -14,6 +14,6 @@ namespace UserManagement.Common.Models.DataBase
         public string Adress { get; set; }
         public UserType UserType { get; set; }
         public byte[]? ProfilePicture { get; set; }
-        public int Verified { get; set; }
+        public int? Verified { get; set; }
     }
 }

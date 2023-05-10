@@ -13,6 +13,8 @@ export const MyProfile = () => {
     const [dateOfBirth, setDateOfBirth] = useState(logedInUser.dateOfBirth);
     const [adress, setAdress] = useState(logedInUser.adress);
     const [profilePicture, setProfilePicture] = useState(null);
+    const [userType] = useState(logedInUser.userType);
+    const [verifiedStatus] = useState(logedInUser.verified);
 
     const handleAlert = (message, type) => {
         if(type === "success")
@@ -24,6 +26,13 @@ export const MyProfile = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         await UpdateProfile(username, name, lastname, email, dateOfBirth, adress, profilePicture, handleAlert);
+        setUsername(logedInUser.userName);
+        setEmail(logedInUser.email);
+        setName(logedInUser.name);
+        setLastname(logedInUser.lastName);
+        setDateOfBirth(logedInUser.dateOfBirth);
+        setAdress(logedInUser.adress);
+        setProfilePicture(logedInUser.profilePicture); 
     }
 
 
@@ -40,7 +49,7 @@ export const MyProfile = () => {
                     <tr>
                         <td>
                             <div className="profile-picture-container">
-                                <img className="profile-picture" src={logedInUser.profilePicture} alt="Profile picture"/>
+                                <img className="profile-picture" src={logedInUser.profilePicture} alt="Profile"/>
                             </div>
                         </td>
                         <td>
@@ -68,6 +77,11 @@ export const MyProfile = () => {
                     <tr>
                         <td><label htmlFor="adress">adress</label></td>
                         <td><input value={adress} onChange={(e) => setAdress(e.target.value)} type="adress" placeholder="adress" /></td>
+                    </tr>
+                    <tr>
+                        <td colSpan="2">
+                            {userType === "Seller" && <label>{verifiedStatus}</label>}
+                        </td>
                     </tr>
                     <tr>
                         <td colSpan="2">
