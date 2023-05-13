@@ -9,6 +9,7 @@ namespace UserManagement.Common.Models.Configurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.HasKey(x => x.UserId);
+
         }
     }
 }

@@ -20,13 +20,15 @@ namespace UserManagement.Services
         private readonly IMapper _mapper;
         private readonly IJwtHelper _jwtHelper;
         private readonly IUserHelper _userHelper;
+        private readonly IConfiguration _configuration;
 
-        public UserService(IUnitOfWork unitOfWork, IMapper mapper, IJwtHelper jwtHelper, IUserHelper userHelper)
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper, IJwtHelper jwtHelper, IUserHelper userHelper, IConfiguration configuration)
         {
             _jwtHelper = jwtHelper;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _userHelper = userHelper;
+            _configuration = configuration;
         }
 
         public async Task<User> CreateUser(RegisterUser incomingUser)
@@ -235,15 +237,17 @@ namespace UserManagement.Services
         }
 
         private void SendVerificationEmail(string email)
-        {
+        { 
+            var senderEmail = _configuration.GetValue<string>("MailServiceCredentials:Email");
+            var password = _configuration.GetValue<string>("MailServiceCredentials:Password");
             var stmpClient = new SmtpClient("smtp.gmail.com")
             {
                 Port = 587,
-                Credentials = new NetworkCredential("srdjanstanojcic031@gmail.com", "xrqhwofhlodpiqss"),
+                Credentials = new NetworkCredential(senderEmail, password),
                 EnableSsl = true
             };
 
-            stmpClient.Send("srdjanstanojcic031@gmail.com", email, "Verifcation", "Admin has review your verification request, log in to check it.");
+            stmpClient.Send(senderEmail, email, "Verifcation", "Admin has reviewed your verification request, log in to check it.");
         }
     }
 }
