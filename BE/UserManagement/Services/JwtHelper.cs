@@ -3,7 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using UserManagement.Services.Contracts;
-using static UserManagement.Common.Constants;
+using static Common.Constants;
 
 namespace UserManagement.Services
 {

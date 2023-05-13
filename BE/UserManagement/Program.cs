@@ -9,21 +9,9 @@ using UserManagement.Database.Repositories;
 using UserManagement.Database.Repositories.Contracts; 
 using UserManagement.Services;
 using UserManagement.Services.Contracts;
-using static UserManagement.Common.Constants;
+using static Common.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
-//builder.Services.AddCors(options =>
-//{
-//    options.AddPolicy("AllowAll", builder =>
-//    {
-//        builder.AllowAnyOrigin()
-//        .AllowAnyMethod()
-//        .AllowAnyHeader();
-//    });
-//});
 
 builder.Services.AddDbContext<UserDataContext>(options =>
 {
@@ -75,8 +63,6 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-//app.UseCors("AllowAll");
 
 app.MapControllers();
 app.UseMiddleware<GlobalExceptionHandler>();
