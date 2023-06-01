@@ -21,7 +21,42 @@ namespace ShopManagement.Controllers
         [Authorize(Roles = "Seller")]
         public async Task<ActionResult> AddNewProduct([FromForm] NewProduct product)
         {
+            product.SellerId = User.FindFirst("UserId").Value;
             return Ok(await _productService.AddNewProduct(product));
+        }
+
+        [HttpGet]
+        [Route("")]
+        public async Task<ActionResult> GetAll()
+        {
+            return Ok(await _productService.GetAll());
+        }
+
+        [HttpGet]
+        [Route("/seller/products")]
+        [Authorize(Roles = "Seller")]
+        public async Task<ActionResult> GetAllBySeller()
+        {
+            var userId = User.FindFirst("UserId").Value;
+            return Ok(await _productService.GetAllBySellerId(userId.ToString()));
+        }
+
+        [HttpPut]
+        [Route("products/{productId}/update")]
+        [Authorize(Roles = "Seller")]
+        public async Task<ActionResult> Update([FromForm] UpdateProduct product)
+        {
+            product.SellerId = User.FindFirst("UserId").Value;
+            return Ok(await _productService.Update(product));
+        }
+
+        [HttpDelete]
+        [Route("products/{productId}/delete")]
+        [Authorize(Roles = "Seller")]
+        public async Task<ActionResult> Delete(DeleteProduct product)
+        {
+            product.SellerId = User.FindFirst("UserId").Value;
+            return Ok(await _productService.Delete(product));
         }
     }
 }

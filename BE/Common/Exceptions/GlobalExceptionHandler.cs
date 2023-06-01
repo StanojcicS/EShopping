@@ -8,6 +8,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Common.Exceptions.CustomExceptions;
+using Common.Exceptions.CustomExceptions.ShopManagementExceptions;
 
 namespace Common.Exceptions
 {
@@ -44,6 +45,9 @@ namespace Common.Exceptions
                         break;
                     case KeyNotFoundException e:
                         response.StatusCode = (int)HttpStatusCode.NotFound;
+                        break;
+                    case UnauthorizedProductUpdateException e:
+                        response.StatusCode = (int)HttpStatusCode.Unauthorized;
                         break;
                     default:
                         response.StatusCode = (int)HttpStatusCode.InternalServerError;

@@ -15,10 +15,10 @@ namespace ShopManagement.Database.Repositories
             _context = context;
         }
 
-        public Task<TEntity> Delete(TEntity entity)
+        public async Task<TEntity> Delete(TEntity entity)
         {
             _context.Set<TEntity>().Remove(entity);
-            return null;
+            return entity;
         }
 
         public async Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> filter)

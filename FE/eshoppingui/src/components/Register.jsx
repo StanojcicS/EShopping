@@ -28,7 +28,6 @@ export const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         await RegisterUser(username, email, password, passwordRepeat, name, lastname, dateOfBirth, adress, userType, profilePicture, handleAlert, navigate);
-        
     }
 
     const responseFacebook = (response) => {

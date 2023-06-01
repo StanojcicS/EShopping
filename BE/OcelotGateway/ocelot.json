@@ -68,6 +68,50 @@
           "Port": 7195
         }
       ]
+    },
+    {
+      "UpstreamPathTemplate": "/product",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/Product",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7041
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/seller/products",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/seller/products",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7041
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/products/{productId}/update",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/Product/products/{productId}/update",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7041
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/products/{productId}/delete",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/Product/products/{productId}/delete",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7041
+        }
+      ]
     }
   ]
 }

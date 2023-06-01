@@ -1,5 +1,5 @@
 import { toast, ToastContainer } from "react-toastify"
-import { AddNewArticleButton } from "./dashboard-buttons/AddNewArticleButton"
+import { MyProductsButton } from "./dashboard-buttons/MyProductsButton"
 import { AllOrdersButton } from "./dashboard-buttons/AllOrdersButton"
 import { MyOrdersButton } from "./dashboard-buttons/MyOrdersButton"
 import { NewOrderButton } from "./dashboard-buttons/NewOrderButton"
@@ -10,7 +10,7 @@ import { MyProfileButton } from "./dashboard-buttons/MyProfileButton"
 
 const buttonsToRender = {
     Admin: [<MyProfileButton/>, <AllOrdersButton/>, <VerifyUsersButton/>],
-    Seller: [<MyProfileButton/>, <AddNewArticleButton/>, <MyOrdersButton/>, <NewOrdersButton/>],
+    Seller: [<MyProfileButton/>, <MyProductsButton/>, <MyOrdersButton/>, <NewOrdersButton/>],
     Buyer: [<MyProfileButton/>, <NewOrderButton/>, <OldOrdersButton/>]
 }
 
