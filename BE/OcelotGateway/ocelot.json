@@ -81,6 +81,17 @@
       ]
     },
     {
+      "UpstreamPathTemplate": "/products",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/Product",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7041
+        }
+      ]
+    },
+    {
       "UpstreamPathTemplate": "/seller/products",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/seller/products",
@@ -106,6 +117,17 @@
       "UpstreamPathTemplate": "/products/{productId}/delete",
       "UpstreamHttpMethod": [ "Delete" ],
       "DownstreamPathTemplate": "/api/Product/products/{productId}/delete",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7041
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/order",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/Order",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",

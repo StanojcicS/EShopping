@@ -10,6 +10,7 @@ import { VerifyUsers } from './components/adminCommands/VerifyUsers';
 import { MyProducts } from './components/sellerCommands/MyProducts';
 import { AddNewProduct } from './components/sellerCommands/AddNewProduct';
 import { UpdateProductForm } from './components/sellerCommands/UpdateProduct';
+import { NewOrder } from './components/buyerCommands/NewOrder';
 
 // window.onbeforeunload = function() {
 //   localStorage.clear();
@@ -46,6 +47,10 @@ function App() {
                 element={<PrivateRoute
                           allowedRoles={["Seller"]}
                           component={UpdateProductForm}/> }/>  
+        <Route path="/new-order"
+                element={<PrivateRoute
+                          allowedRoles={["Buyer"]}
+                          component={NewOrder}/> }/>
       </Routes>
     </>
   );

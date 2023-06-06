@@ -19,6 +19,25 @@ export const GetSellersProducts = async (handleAllert, token) =>
     }
 }
 
+export const GetAllProducts = async (handleAlert, token) =>
+{
+    try{
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/products`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response.data;
+    }
+    catch(ex)
+    {
+        console.error("Error while trying to get list of products: ", ex.response.data.message);
+        handleAlert(ex.response.data.message, "error");
+        return ex.response;
+    }
+}
+
 export const DeleteProduct = async (handleAllert, token, productId) =>
 {
     try{

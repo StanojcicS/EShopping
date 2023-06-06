@@ -1,8 +1,8 @@
 import React from 'react';
-import { Route, Navigate } from "react-router-dom";
+import { Route, Navigate, useLocation } from "react-router-dom";
 
-export const PrivateRoute = ({ component: Component, allowedRoles,  ...props}) => {
-    
+export const PrivateRoute = ({ component: Component, allowedRoles, ...props}) => {
+    const location = useLocation();
     const IsAuthenticated = () => {
         const logedInUser = localStorage.getItem("logedInUser");
         return logedInUser != null && logedInUser != undefined;
@@ -12,7 +12,21 @@ export const PrivateRoute = ({ component: Component, allowedRoles,  ...props}) =
         const logedInUser = JSON.parse(localStorage.getItem("logedInUser"));
         if ( logedInUser == null || logedInUser == undefined)
             return false;
-        return allowedRoles.includes(logedInUser.userType);
+
+        if (allowedRoles && !allowedRoles.includes(logedInUser.userType)) {
+            return false;
+        }
+
+        if (location.pathname === '/my-profile') {
+            return true;  
+        }
+        if (location.pathname === '/dashboard') {
+            return true;  
+        }
+        if (logedInUser.userType === 'Seller' && logedInUser.verified !== 'Your account is verified.') {
+            return false;
+        }
+        return true;
     }
 
     if(!IsAuthenticated())
@@ -22,8 +36,9 @@ export const PrivateRoute = ({ component: Component, allowedRoles,  ...props}) =
         );
     }
 
+    
     if(allowedRoles && !IsAuthorized())
-    {
+    { 
         return (
             <Navigate to="/my-profile"/>
         );

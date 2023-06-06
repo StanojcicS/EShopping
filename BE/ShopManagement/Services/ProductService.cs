@@ -48,7 +48,7 @@ namespace ShopManagement.Services
 
         public async Task<List<Product>> GetAll()
         {
-            return (await _unitOfWork.Products.GetAll()).ToList();
+            return (await _unitOfWork.Products.GetAll()).Where(p => p.Quantity > 0).ToList();
         }
 
         public async Task<List<ProductView>> GetAllBySellerId(string sellerId)

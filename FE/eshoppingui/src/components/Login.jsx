@@ -26,7 +26,7 @@ export const Login = () => {
     useEffect( () => {
         const logedInUser = localStorage.getItem("logedInUser");
         if(logedInUser)
-            navigate("/dashboard");
+            navigate("/my-profile");
     }, [navigate]);
 
 

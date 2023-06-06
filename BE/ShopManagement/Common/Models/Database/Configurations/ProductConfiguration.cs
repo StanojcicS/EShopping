@@ -7,7 +7,7 @@ namespace ShopManagement.Common.Models.DataBase.Configurations
     {
         public void Configure(EntityTypeBuilder<Product> builder)
         {
-            builder.HasKey(x => x.Id);
+            builder.HasKey(p => p.Id); 
         }
     }
 }

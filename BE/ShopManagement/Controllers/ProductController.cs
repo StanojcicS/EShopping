@@ -27,6 +27,7 @@ namespace ShopManagement.Controllers
 
         [HttpGet]
         [Route("")]
+        [Authorize(Roles = "Buyer")]
         public async Task<ActionResult> GetAll()
         {
             return Ok(await _productService.GetAll());
