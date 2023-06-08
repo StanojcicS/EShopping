@@ -127,7 +127,7 @@
     {
       "UpstreamPathTemplate": "/order",
       "UpstreamHttpMethod": [ "Post" ],
-      "DownstreamPathTemplate": "/api/Order",
+      "DownstreamPathTemplate": "/api/order",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",

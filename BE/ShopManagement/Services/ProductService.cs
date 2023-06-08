@@ -46,9 +46,11 @@ namespace ShopManagement.Services
             throw new KeyNotFoundException("This product can't be found in our system.");
         }
 
-        public async Task<List<Product>> GetAll()
+        public async Task<List<ProductView>> GetAll()
         {
-            return (await _unitOfWork.Products.GetAll()).Where(p => p.Quantity > 0).ToList();
+            var allProducts = (await _unitOfWork.Products.GetAll()).Where(p => p.Quantity > 0).ToList();
+            var allAddapted = _mapper.Map<List<ProductView>>(allProducts);
+            return allAddapted;
         }
 
         public async Task<List<ProductView>> GetAllBySellerId(string sellerId)

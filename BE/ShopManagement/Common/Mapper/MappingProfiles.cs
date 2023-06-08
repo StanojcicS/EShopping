@@ -25,6 +25,7 @@ namespace ShopManagement.Common.Mapper
             CreateMap<NewOrder, Order>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()))
                 .ForMember(dest => dest.OrderDeclinedd, opt => opt.MapFrom(src => false))
+                .ForMember(dest => dest.OrderedAt, opt => opt.MapFrom(src => DateTime.Now))
                 .ForMember(dest => dest.OrderProducts, opt => opt.MapFrom(src => new List<OrderProduct>()));
 
         }

@@ -10,8 +10,9 @@ namespace ShopManagement.Common.Models.Database
         public DateTime DeliveringDateTime { get; set; }
         public double TotalPrice { get; set; }
         public bool OrderDeclinedd { get; set; }
-        public string Comment { get; set; }
+        public string? Comment { get; set; }
         public string DeliveryAddress { get; set; }
+        public DateTime OrderedAt { get; set; }
 
 
         [JsonIgnore(Condition = JsonIgnoreCondition.Always)]

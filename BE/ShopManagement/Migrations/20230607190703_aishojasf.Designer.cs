@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShopManagement.Database.DataAccess;
 
@@ -11,9 +12,11 @@ using ShopManagement.Database.DataAccess;
 namespace ShopManagement.Migrations
 {
     [DbContext(typeof(ShopManagementContext))]
-    partial class ShopManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20230607190703_aishojasf")]
+    partial class aishojasf
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,9 +90,6 @@ namespace ShopManagement.Migrations
 
                     b.Property<bool>("OrderDeclinedd")
                         .HasColumnType("bit");
-
-                    b.Property<DateTime>("OrderedAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<double>("TotalPrice")
                         .HasColumnType("float");

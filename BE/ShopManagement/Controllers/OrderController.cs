@@ -14,8 +14,7 @@ namespace ShopManagement.Controllers
         public OrderController(IOrderService orderService)
         {
             _orderService = orderService;
-        }
-
+        } 
 
         [HttpPost]
         [Route("")]

@@ -26,9 +26,11 @@ namespace ShopManagement.Services
             foreach (var productId in order.ProductIds)
             { 
                 var doesProductAlreadyExistsInThisOrder = databaseOrder.OrderProducts.Find(op => op.ProductId.ToString().ToLower().Equals(productId.ToLower()));
+                var product = await _unitOfWork.Products.FindAsync(p => p.Id.ToString().ToLower().Equals(productId.ToLower()));
                 if(doesProductAlreadyExistsInThisOrder != null)
                 {
                     databaseOrder.OrderProducts.Find(op => op.ProductId.ToString().ToLower().Equals(productId.ToLower())).ProductQuantity++;
+                    product.Quantity--;
                 }
                 else
                 {
@@ -40,6 +42,7 @@ namespace ShopManagement.Services
                         Product = await _unitOfWork.Products.FindAsync(p => p.Id.ToString().ToLower().Equals(productId.ToLower())),
                         Order = databaseOrder
                     });
+                    product.Quantity--;
                 } 
             }
              

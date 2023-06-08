@@ -2,10 +2,15 @@ import { useEffect, useState } from "react"
 import {ToastContainer, toast} from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css'; 
 import { GetAllProducts } from "../../services/ProductService";
-
+import { PlaceNewOrder } from "../../services/OrderServices"; 
+import { useNavigate } from "react-router-dom";
 export const NewOrder = () => {
     const [allProducts, setAllProducts] = useState([]);
+    const [productIds, setProductIds] = useState([]);
     const token = localStorage.getItem("token");
+    const [deliveryAddress, setDeliveryAddress] = useState('');
+    const [comment, setComment] = useState('');
+    const navigate = useNavigate();
 
     const handleAlert = (message, type) => {
         if(type === "success")
@@ -14,8 +19,21 @@ export const NewOrder = () => {
             toast.error(message);
     }
 
-    const addToCart = () => {
+    const addToCart = (productId, quantity) => {  
+        for(let i = 0 ; i < quantity; i++)
+        {
+            setProductIds((prevItems) => [...prevItems, productId]);                  
+        } 
+    }
 
+    const placeOrder = async (e) => {
+        console.log(productIds);
+        e.preventDefault();
+        const response = await PlaceNewOrder(productIds, comment, deliveryAddress, token, handleAlert);
+        if (response !== undefined && response !== "")
+        {
+            setProductIds([]);
+        }
     }
 
     useEffect( () => {
@@ -45,9 +63,10 @@ export const NewOrder = () => {
                     <th>Price</th>
                     <th>Available quantity</th>
                     <th>Description</th>
-                    <th></th>
+                    <th>Quantity</th>
                 </tr>
                 {allProducts.map(product => (
+                    <>
                     <tr key={product.id}>
                         <td style={{display:"none"}}>{product.id}</td>
                         <td>
@@ -63,23 +82,32 @@ export const NewOrder = () => {
                             />
                             <button 
                             onClick={() => {
-                                const quantity = parseInt(document.getElementById(`quantity_${product.id}`).value);
-                                if(quantity <= product.quantity){
-                                    addToCart(product.Id, quantity);
-                                    quantity = "1";
+                                const quantityInput = document.getElementById(`quantity_${product.id}`);
+                                const quantity = parseInt(quantityInput.value); 
+                                if(quantity <= product.quantity && quantity > 0){
+                                    addToCart(product.id, quantity);
+                                     quantityInput.value = "1";
                                     handleAlert("Successfully added product(s) to the cart.", "success");
                                 }
                                 else {
-                                    handleAlert(`Only ${product.quantity} product(s) available for ${product.name}`, "error");
+                                    handleAlert(`You can order between 0 and ${product.quantity} items called '${product.name}'`, "error");
                                 }
                             }}>
-
+                            Add to cart        
                             </button>
                         </td>
                     </tr>
+                    </>
                 ))}
             </table>    
         }
+        <form  onSubmit={placeOrder}>
+                            <label htmlFor="deliveryAddress">Delivery address:</label>
+                            <input value={deliveryAddress} onChange={(e) => setDeliveryAddress(e.target.value)} type="deliveryAddress" placeholder="Enter your address" id="deliveryAddress" name="deliveryAddress"/>
+                            <label htmlFor="comment">Comment:</label>
+                            <input value={comment} onChange={(e) => setComment(e.target.value)} type="comment" placeholder="Anything we need to know?" id="comment" name="comment"/>
+                            <button type="submit" >Place order</button>
+                    </form>
         </>
     )
 }

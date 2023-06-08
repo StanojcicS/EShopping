@@ -18,7 +18,7 @@ namespace ShopManagement.Services
             double totalPrice = 0;
             foreach (var product in products)
             {
-                totalPrice += product.Product.Price;
+                totalPrice += product.Product.Price * product.ProductQuantity;
             }
             return totalPrice;
         }
