@@ -134,6 +134,39 @@
           "Port": 7041
         }
       ]
+    },
+    {
+      "UpstreamPathTemplate": "/buyer/orders",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/order/buyer/orders",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7041
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/order/cancel",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/order/cancel",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7041
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/order/details",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/order/details",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7041
+        }
+      ]
     }
   ]
 }

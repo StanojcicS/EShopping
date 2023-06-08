@@ -7,7 +7,7 @@ namespace ShopManagement.Common.Models.Database
     {
         public string UserId { get; set; }
         public Guid Id { get; set; } 
-        public DateTime DeliveringDateTime { get; set; }
+        public DateTime DeliveringTime { get; set; }
         public double TotalPrice { get; set; }
         public bool OrderDeclinedd { get; set; }
         public string? Comment { get; set; }

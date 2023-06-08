@@ -6,6 +6,7 @@ namespace ShopManagement.Database.DataAccess
     {
         IProductRepository Products { get; }
         IOrderRepository Orders { get; }
+        IOrderProductRepository OrderProducts { get; }
         Task<int> SaveChanges();
     }
 }

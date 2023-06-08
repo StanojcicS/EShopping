@@ -11,6 +11,7 @@ import { MyProducts } from './components/sellerCommands/MyProducts';
 import { AddNewProduct } from './components/sellerCommands/AddNewProduct';
 import { UpdateProductForm } from './components/sellerCommands/UpdateProduct';
 import { NewOrder } from './components/buyerCommands/NewOrder';
+import { OldOrders } from './components/buyerCommands/OldOrders';
 
 // window.onbeforeunload = function() {
 //   localStorage.clear();
@@ -51,6 +52,10 @@ function App() {
                 element={<PrivateRoute
                           allowedRoles={["Buyer"]}
                           component={NewOrder}/> }/>
+        <Route path="/old-orders"
+                element={<PrivateRoute
+                          allowedRoles={["Buyer"]}
+                          component={OldOrders}/> }/>
       </Routes>
     </>
   );

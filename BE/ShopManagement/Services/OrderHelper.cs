@@ -1,5 +1,5 @@
 ﻿using ShopManagement.Common.Models.Database;
-using ShopManagement.Common.Models.DataBase;
+using static Common.Constants;
 using ShopManagement.Services.Contracts;
 
 namespace ShopManagement.Services
@@ -20,6 +20,7 @@ namespace ShopManagement.Services
             {
                 totalPrice += product.Product.Price * product.ProductQuantity;
             }
+            totalPrice += SHIPPING_COSTS;
             return totalPrice;
         }
     }

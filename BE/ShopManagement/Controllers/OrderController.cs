@@ -24,5 +24,32 @@ namespace ShopManagement.Controllers
             order.UserId = User.FindFirst("UserId").Value;
             return Ok(await _orderService.CreateNewOrder(order));
         }
+
+        [HttpGet]
+        [Route("buyer/orders")]
+        [Authorize(Roles = "Buyer")]
+        public async Task<ActionResult> GetAllOrdersByByer()
+        {
+            var userId = User.FindFirst("UserId").Value;
+            return Ok(await _orderService.GetAllByBuyerId(userId));
+        }
+
+        [HttpPut]
+        [Route("cancel")]
+        [Authorize(Roles = "Buyer")]
+        public async Task<ActionResult> CancelOrder([FromBody] CancelOrder order)
+        {
+            order.UserId= User.FindFirst("UserId").Value;
+            return Ok(await _orderService.CancelOrder(order));
+        }
+
+        [HttpGet]
+        [Route("details")]
+        [Authorize(Roles = "Buyer")]
+        public async Task<ActionResult> OrderDetails([FromForm] OrderDetailsInbound order)
+        {
+            order.UserId = User.FindFirst("UserId").Value;
+            return Ok(await _orderService.OrderDetails(order));
+        }
     }
 }

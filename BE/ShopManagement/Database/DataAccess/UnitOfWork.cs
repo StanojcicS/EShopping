@@ -9,12 +9,14 @@ namespace ShopManagement.Database.DataAccess
 
         public IProductRepository Products { get; }
         public IOrderRepository Orders { get; }
+        public IOrderProductRepository OrderProducts { get; }
         
-        public UnitOfWork(ShopManagementContext context, IProductRepository products, IOrderRepository orders)
+        public UnitOfWork(ShopManagementContext context, IProductRepository products, IOrderRepository orders, IOrderProductRepository orderProducts)
         {
             _context= context;
             Products= products;
             Orders= orders;
+            OrderProducts= orderProducts;
         }
 
         protected virtual void Dispose(bool disposing)
