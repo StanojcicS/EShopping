@@ -140,8 +140,7 @@ namespace ShopManagement.Services
         public async Task<List<OrderView>> GetNewOrdersForSeller(string userId)
         {
             var allOrders = await GetAllOrdersForSeller(userId);
-            var newOrders = allOrders.Where(o => DateTime.Parse(o.OrderedAt).AddHours(1) > DateTime.Now).ToList();
-            var testDetails = await SellerOrderDetails(new OrderDetailsInbound() { OrderId = newOrders[1].Id, UserId = userId });
+            var newOrders = allOrders.Where(o => DateTime.Parse(o.OrderedAt).AddHours(1) > DateTime.Now).ToList(); 
             return newOrders;
         }
 
