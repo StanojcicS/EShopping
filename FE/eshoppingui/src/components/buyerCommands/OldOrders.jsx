@@ -22,7 +22,11 @@ export const OldOrders = () => {
     } 
 
     const handleDetailedView = async(orderId) => {
-        console.log("Detailed view of order");
+        navigate("/order-details",{
+            state:{
+                pOrderId:orderId
+            }
+        })
     }
     
     useEffect( () => {
@@ -79,15 +83,21 @@ export const OldOrders = () => {
                         <td>{order.numberOfProducts}</td>
                         <td>{order.totalPrice}</td>
                         <td>{order.orderedAt}</td>
-                        <td>{order.deliveringTime}</td>
+                        <td>
+                            {order.orderCanceled === true ?(
+                                <p style={{color:"white"}}>Order is canceled</p>
+                            ):
+                            (order.deliveringTime)
+                            }
+                        </td>
                         <td>{order.comment}</td>
                         <td><button onClick={() => handleDetailedView(order.id)}>Details</button></td>
                         <td>
-                            {CanOrderBeCanceled(order) ? 
-                            (
+                            {order.orderCanceled === true ?(
+                                <p style={{color:"white"}}>Order is canceled</p>
+                            ) : CanOrderBeCanceled(order) ? (
                                 <button onClick = {() => handleCancelOrder(order.id)}>Cancel order</button>
-                            )
-                            :(
+                            ) : (
                                 <p style={{color:"white"}}>
                                     It is too late to cancel it now.
                                 </p>

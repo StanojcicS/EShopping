@@ -7,6 +7,7 @@
         public double TotalPrice { get; set; }
         public string? Comment { get; set; }
         public string Address { get; set; }
+        public bool IsCanceled { get; set; }
         public List<ProductView> Products { get; set; }
     }
 }

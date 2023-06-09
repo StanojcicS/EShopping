@@ -7,6 +7,7 @@
         public double TotalPrice { get; set; }
         public string OrderedAt { get; set; }
         public string DeliveringTime { get; set; }
+        public bool OrderCanceled { get; set; }
         public string? Comment { get; set; }
     }
 }

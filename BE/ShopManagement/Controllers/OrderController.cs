@@ -46,10 +46,19 @@ namespace ShopManagement.Controllers
         [HttpGet]
         [Route("details")]
         [Authorize(Roles = "Buyer")]
-        public async Task<ActionResult> OrderDetails([FromForm] OrderDetailsInbound order)
+        public async Task<ActionResult> OrderDetails(string orderId)
         {
-            order.UserId = User.FindFirst("UserId").Value;
+            var order = new OrderDetailsInbound() { OrderId = orderId, UserId = User.FindFirst("UserId").Value };
             return Ok(await _orderService.OrderDetails(order));
+        }
+
+        [HttpGet]
+        [Route("seller/new-orders")]
+        [Authorize(Roles = "Seller")]
+        public async Task<ActionResult> GetNewOrdersBySeller()
+        {
+            var userId = User.FindFirst("UserId").Value;
+            return Ok(await _orderService.GetNewOrdersForSeller(userId));
         }
     }
 }

@@ -79,6 +79,15 @@ export const CanOrderBeCanceled = (order) => {
     return cancelationTime > new Date();
 }
 
+export const IsOrderDelivered = (deliveringTime) => {
+    const deliveryTime = new Date(deliveringTime);
+    const timeToBeDelivered = deliveryTime -  new Date() ;
+    console.log(timeToBeDelivered);
+    if(timeToBeDelivered<0)
+        return true;
+    return false;
+}
+
 export const CancelOrder = async (token, orderId, handleAlert, navigate) => {
     try{
         const response = await axios.put(`${process.env.REACT_APP_API_BASE_URL}/order/cancel`,
@@ -91,13 +100,35 @@ export const CancelOrder = async (token, orderId, handleAlert, navigate) => {
                 Authorization: `Bearer ${token}`
             }
         });
-        handleAlert("Successfully canceled your order.", "success");
+        handleAlert("Successfully canceled your order. Refresh the page to update your view.", "success");
         setTimeout(() => {navigate("/old-orders");}, 2000);
         return response;
     }
     catch(ex)
     {
         console.error("Error while trying to cancel your order: ", ex.response.data.message);
+        handleAlert(ex.response.data.message, "error");
+        return ex.response;
+    }
+}
+
+export const GetOrderDetails = async (handleAlert,token, orderId) =>
+{
+    try{ 
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/order/details`,
+        {
+            params: { 
+                orderId
+            },
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response.data;
+    }
+    catch(ex)
+    {
+        console.error("Error while trying to get orderInfo: ", ex.response);
         handleAlert(ex.response.data.message, "error");
         return ex.response;
     }
