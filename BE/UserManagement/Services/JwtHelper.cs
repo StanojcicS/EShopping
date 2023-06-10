@@ -16,7 +16,7 @@ namespace UserManagement.Services
             var tokenOptions = new JwtSecurityToken(
                 issuer: "http://localhost:7264",
                 claims: userClaims,
-                expires: DateTime.Now.AddMinutes(30),
+                expires: DateTime.Now.AddMinutes(60),
                 signingCredentials: signingCredentials);
             string stringToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
             return stringToken;
