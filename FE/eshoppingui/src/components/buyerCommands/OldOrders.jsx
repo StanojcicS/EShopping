@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { GetBuyersOrders } from "../../services/OrderServices";
@@ -62,6 +62,9 @@ export const OldOrders = () => {
 
     return(
         <>
+        <Link className='link-button' to='/dashboard'>
+            <button className="back-to-dashboard-button">Dashboard</button>
+        </Link> 
         <ToastContainer/>
         {myOrders.length === 0 ?
             <p style={{color:"white"}}>You do not have any orders</p>

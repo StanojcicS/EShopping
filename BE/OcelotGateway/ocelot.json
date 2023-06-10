@@ -158,9 +158,53 @@
       ]
     },
     {
+      "UpstreamPathTemplate": "/order/details/seller",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/order/seller/details",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7041
+        }
+      ]
+    },
+    {
       "UpstreamPathTemplate": "/order/details",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/order/details",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7041
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/seller/new-orders",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/order/seller/new-orders",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7041
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/seller/my-orders",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/order/seller/my-orders",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7041
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/all-orders",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/order",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",

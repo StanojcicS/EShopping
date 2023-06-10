@@ -58,6 +58,9 @@ export const MyProducts = () => {
 
     return (
         <>
+        <Link className='link-button' to='/dashboard'>
+            <button className="back-to-dashboard-button">Dashboard</button>
+        </Link> 
         <ToastContainer/>
         <h2 style={{color:"white"}}>My products</h2>
         {products.length === 0 ?
@@ -71,7 +74,7 @@ export const MyProducts = () => {
                     <th>Price</th>
                     <th>Quantity</th>
                     <th>Description</th>
-                    <th></th>
+                    <th>Actions</th>
                 </tr>
                 {products.map(product => (
                     <tr key={product.id}>

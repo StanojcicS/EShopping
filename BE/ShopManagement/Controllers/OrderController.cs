@@ -45,12 +45,22 @@ namespace ShopManagement.Controllers
 
         [HttpGet]
         [Route("details")]
-        [Authorize(Roles = "Buyer")]
+        [Authorize(Roles = "Buyer, Admin")]
         public async Task<ActionResult> OrderDetails(string orderId)
         {
             var order = new OrderDetailsInbound() { OrderId = orderId, UserId = User.FindFirst("UserId").Value };
             return Ok(await _orderService.OrderDetails(order));
         }
+
+        [HttpGet]
+        [Route("seller/details")]
+        [Authorize(Roles = "Seller")]
+        public async Task<ActionResult> SellerOrderDetails(string orderId)
+        {
+            var order = new OrderDetailsInbound() { OrderId = orderId, UserId = User.FindFirst("UserId").Value };
+            return Ok(await _orderService.SellerOrderDetails(order));
+        }
+
 
         [HttpGet]
         [Route("seller/new-orders")]
@@ -59,6 +69,23 @@ namespace ShopManagement.Controllers
         {
             var userId = User.FindFirst("UserId").Value;
             return Ok(await _orderService.GetNewOrdersForSeller(userId));
+        }
+
+        [HttpGet]
+        [Route("seller/my-orders")]
+        [Authorize(Roles = "Seller")]
+        public async Task<ActionResult> GetSellersOrders()
+        {
+            var userId = User.FindFirst("UserId").Value;
+            return Ok(await _orderService.GetMyOrdersForSeller(userId));
+        }
+
+        [HttpGet]
+        [Route("")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> GetAllOrders()
+        { 
+            return Ok(await _orderService.GetAllOrders());
         }
     }
 }

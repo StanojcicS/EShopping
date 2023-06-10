@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Common.Exceptions.CustomExceptions.ShopManagementExceptions;
 using Microsoft.AspNetCore.Components.Web;
 using ShopManagement.Common.Models.Database;
 using ShopManagement.Common.Models.Inbound;
@@ -43,7 +44,7 @@ namespace ShopManagement.Services
         }
 
         public async Task<Order> CreateNewOrder(NewOrder order)
-        {
+        { 
             var databaseOrder = _mapper.Map<Order>(order);
 
             foreach (var productId in order.ProductIds)
@@ -53,7 +54,12 @@ namespace ShopManagement.Services
                 if(doesProductAlreadyExistsInThisOrder != null)
                 {
                     databaseOrder.OrderProducts.Find(op => op.ProductId.ToString().ToLower().Equals(productId.ToLower())).ProductQuantity++;
+
+                    if (product == null)
+                        throw new RemovedProductException("There is no more this product");
                     product.Quantity--;
+                    if (product.Quantity < 0)
+                        throw new RemovedProductException("There is no more this product");
                 }
                 else
                 {
@@ -65,7 +71,11 @@ namespace ShopManagement.Services
                         Product = await _unitOfWork.Products.FindAsync(p => p.Id.ToString().ToLower().Equals(productId.ToLower())),
                         Order = databaseOrder
                     });
+                    if (product == null)
+                        throw new RemovedProductException("There is no more this product");
                     product.Quantity--;
+                    if (product.Quantity < 0)
+                        throw new RemovedProductException("There is no more this product");
                 } 
             }
              
@@ -93,6 +103,22 @@ namespace ShopManagement.Services
 
             }
             return mappedUserOrders;
+        }
+
+        public async Task<List<OrderView>> GetAllOrders()
+        {
+            var allOrders = (await _unitOfWork.Orders.GetAll()).ToList();
+            var mappedOrders = _mapper.Map<List<OrderView>>(allOrders);
+            foreach (var order in mappedOrders)
+            {
+                var productsInOrder = (await _unitOfWork.OrderProducts.GetAll()).Where(op => op.OrderId.ToString().ToLower().Equals(order.Id.ToLower()));
+                foreach (var differentProduct in productsInOrder)
+                {
+                    order.NumberOfProducts += differentProduct.ProductQuantity;
+                }
+
+            }
+            return mappedOrders;
         }
 
         public async Task<List<OrderView>> GetAllOrdersForSeller(string userId)
@@ -140,8 +166,16 @@ namespace ShopManagement.Services
         public async Task<List<OrderView>> GetNewOrdersForSeller(string userId)
         {
             var allOrders = await GetAllOrdersForSeller(userId);
-            var newOrders = allOrders.Where(o => DateTime.Parse(o.OrderedAt).AddHours(1) > DateTime.Now).ToList(); 
+            var newOrders = allOrders.Where(o => DateTime.Parse(o.OrderedAt).AddHours(1) > DateTime.Now && o.OrderCanceled == false).ToList(); 
             return newOrders;
+        }
+
+
+        public async Task<List<OrderView>> GetMyOrdersForSeller(string userId)
+        {
+            var allOrders = await GetAllOrdersForSeller(userId);
+            var oldOrders = allOrders.Where(o => DateTime.Parse(o.OrderedAt).AddHours(1) < DateTime.Now && o.OrderCanceled == false).ToList();
+            return oldOrders;
         }
 
         public async Task<OrderDetailsView> SellerOrderDetails(OrderDetailsInbound orderDetailsInbound)

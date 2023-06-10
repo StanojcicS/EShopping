@@ -1,14 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { GetOrderDetails, IsOrderDelivered } from '../../services/OrderServices';
 
 
 export const OrderDetails = () => {
+    const logedInUser = JSON.parse(localStorage.getItem("logedInUser"));
+    const [userType, setUserType] = useState(logedInUser.userType);
     const location = useLocation();
     const [orderDetails, setOrderDetails] = useState({products: []});
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token"); 
     const { pOrderId } = location.state;
 
     const handleAlert = (message, type) => {
@@ -20,13 +22,11 @@ export const OrderDetails = () => {
 
     useEffect( () => {
         const getOrderDetails = async () => {
-            try{
-                console.log("I AM TRYING");
-                const response = await GetOrderDetails(handleAlert,token, pOrderId);
+            try{ 
+                const response = await GetOrderDetails(handleAlert,token, pOrderId, userType);
                 setOrderDetails(response);
             }
-            catch(ex) {
-                console.log("I AM TRYING");
+            catch(ex) { 
                 console.log(ex);
             }
         };
@@ -36,10 +36,13 @@ export const OrderDetails = () => {
 
     return(
         <>
+        <Link className='link-button' to='/dashboard'>
+            <button className="back-to-dashboard-button">Dashboard</button>
+        </Link> 
         <ToastContainer/>
         <h2 style={{color:"white"}}>Order details</h2>
-        <table>
-            <tr className="verify-sellers-table">
+        <table className='verify-sellers-table'>
+            <tr className="verify-sellers-table-header-row">
                 <th>Ordered at</th>
                 <th>Delivery time</th>
                 <th>Total price</th>
@@ -72,9 +75,10 @@ export const OrderDetails = () => {
                 </td>
             </tr>
         </table>
-        <h3 style={{color:"white"}}>Ordered products:</h3>
-        <table>
-            <tr className='verify-sellers-table'>
+        <br/><br/>
+        <h3 style={{color:"white", textAlign:"left"}}>Ordered products:</h3>
+        <table className='verify-sellers-table'>
+            <tr className='verify-sellers-table-header-row'>
                 <th>Image</th>
                 <th>Name</th>
                 <th>Description</th>

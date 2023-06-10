@@ -37,6 +37,10 @@ export const MyProfile = () => {
 
 
     return(
+        <>
+        <Link className='link-button' to='/dashboard'>
+            <button className="back-to-dashboard-button">Dashboard</button>
+        </Link> 
         <div className="my-profile-form-container">
             <ToastContainer/> 
             <form onSubmit={handleSubmit}>
@@ -91,5 +95,6 @@ export const MyProfile = () => {
                 </table>
                 </form> 
         </div>
+        </>
     );
 }

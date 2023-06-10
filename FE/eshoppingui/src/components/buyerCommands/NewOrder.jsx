@@ -3,7 +3,8 @@ import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
 import { GetAllProducts } from "../../services/ProductService";
 import { PlaceNewOrder } from "../../services/OrderServices"; 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+
 export const NewOrder = () => {
     const [allProducts, setAllProducts] = useState([]);
     const [productIds, setProductIds] = useState([]);
@@ -30,6 +31,10 @@ export const NewOrder = () => {
         console.log(productIds);
         e.preventDefault();
         const response = await PlaceNewOrder(productIds, comment, deliveryAddress, token, handleAlert);
+        if(response.data.message === "There is no more this product")
+        {
+            handleAlert("This product was removed from the shop or quantity in warehouse is decreased, please refresh and try again later.");
+        }
         if (response !== undefined && response !== "")
         {
             setProductIds([]);
@@ -51,6 +56,9 @@ export const NewOrder = () => {
     return(
         <>
         <ToastContainer/>
+        <Link className='link-button' to='/dashboard'>
+            <button className="back-to-dashboard-button">Dashboard</button>
+        </Link> 
         <h2 style={{color:"white"}}>All products</h2>
         {allProducts.length === 0 ?
             <p style={{color:"white"}}>Sorry, there is no available products at the moment, please come back later.</p>    
@@ -77,10 +85,10 @@ export const NewOrder = () => {
                         <td>{product.quantity}</td>
                         <td>{product.description}</td>
                         <td>
-                            <input type="number" min="1" max={product.quantity}
+                            <input style={{width:"30px", textAlign:"center"}}   type="number" min="1" max={product.quantity}
                             defaultValue="1" id={`quantity_${product.id}`}
                             />
-                            <button 
+                            <button style={{marginLeft:"5px"}}
                             onClick={() => {
                                 const quantityInput = document.getElementById(`quantity_${product.id}`);
                                 const quantity = parseInt(quantityInput.value); 
@@ -101,7 +109,7 @@ export const NewOrder = () => {
                 ))}
             </table>    
         }
-        <form  onSubmit={placeOrder}>
+        <form className="place-new-order-form" onSubmit={placeOrder}>
                             <label htmlFor="deliveryAddress">Delivery address:</label>
                             <input value={deliveryAddress} onChange={(e) => setDeliveryAddress(e.target.value)} type="deliveryAddress" placeholder="Enter your address" id="deliveryAddress" name="deliveryAddress"/>
                             <label htmlFor="comment">Comment:</label>

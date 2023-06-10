@@ -13,6 +13,9 @@ import { UpdateProductForm } from './components/sellerCommands/UpdateProduct';
 import { NewOrder } from './components/buyerCommands/NewOrder';
 import { OldOrders } from './components/buyerCommands/OldOrders';
 import { OrderDetails } from './components/buyerCommands/OrderDetails';
+import { NewOrders } from './components/sellerCommands/NewOrders';
+import { MyOrders } from './components/sellerCommands/MyOrders';
+import { AllOrders } from './components/adminCommands/AllOrders';
 
 // window.onbeforeunload = function() {
 //   localStorage.clear();
@@ -61,6 +64,18 @@ function App() {
                 element={<PrivateRoute
                           allowedRoles={["Buyer", "Admin", "Seller"]}
                           component={OrderDetails}/> }/>
+        <Route path="/new-orders"
+                element={<PrivateRoute
+                          allowedRoles={["Seller"]}
+                          component={NewOrders}/> }/>
+        <Route path="/my-orders"
+                element={<PrivateRoute
+                          allowedRoles={["Seller"]}
+                          component={MyOrders}/> }/>
+        <Route path="/all-orders"
+                element={<PrivateRoute
+                          allowedRoles={["Admin"]}
+                          component={AllOrders}/> }/>
       </Routes>
     </>
   );

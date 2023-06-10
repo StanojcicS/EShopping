@@ -10,6 +10,9 @@ namespace ShopManagement.Services.Contracts
         Task<List<OrderView>> GetAllByBuyerId(string userId);
         Task<bool> CancelOrder(CancelOrder order);
         Task<OrderDetailsView> OrderDetails(OrderDetailsInbound orderDetailsInbound);
+        Task<OrderDetailsView> SellerOrderDetails(OrderDetailsInbound orderDetailsInbound);
         Task<List<OrderView>> GetNewOrdersForSeller(string userId);
+        Task<List<OrderView>> GetMyOrdersForSeller(string userId);
+        Task<List<OrderView>> GetAllOrders();
     }
 }

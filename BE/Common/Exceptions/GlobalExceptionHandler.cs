@@ -49,6 +49,9 @@ namespace Common.Exceptions
                     case UnauthorizedProductUpdateException e:
                         response.StatusCode = (int)HttpStatusCode.Unauthorized;
                         break;
+                    case RemovedProductException e:
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        break;
                     default:
                         response.StatusCode = (int)HttpStatusCode.InternalServerError;
                         break;

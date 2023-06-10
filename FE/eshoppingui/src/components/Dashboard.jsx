@@ -18,6 +18,11 @@ export const Dashboard = () => {
     const logedInUser = JSON.parse(localStorage.getItem("logedInUser"));
     const buttons = buttonsToRender[logedInUser.userType];
 
+    const handleLogOut = async (e) => { 
+        localStorage.clear();
+        window.location.reload();
+    }
+
     const tableRows = []; 
     for(let i = 0; i < buttons.length; i+=2)
     { 
@@ -44,7 +49,7 @@ export const Dashboard = () => {
 
     return(
         <div className="dashboard-container">
-            
+        <button onClick={() => handleLogOut()} className="log-out-button">Log out</button>
         <ToastContainer/>
             <table>
                 <tbody>

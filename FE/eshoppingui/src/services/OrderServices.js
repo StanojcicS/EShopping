@@ -32,7 +32,7 @@ export const PlaceNewOrder = async(productIds, comment, deliveryAddress, token, 
     catch(ex)
     {
         console.error("Error while trying to place a new order: ", ex.response);
-        handleAlert(ex.response.data.message, "error");
+        handleAlert(ex.response, "error");
         return ex.response;
     }
 }
@@ -50,8 +50,65 @@ export const GetBuyersOrders = async (handleAlert, token) =>
     }
     catch(ex)
     {
-        console.error("Error while trying to get buyers orders: ", ex.response.data.message);
-        handleAlert(ex.response.data.message, "error");
+        console.error("Error while trying to get buyers orders: ", ex.response);
+        handleAlert(ex.response, "error");
+        return ex.response;
+    }
+}
+
+export const GetAllOrders = async(handleAlert, token) =>
+{
+    try{
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/all-orders`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response.data;
+    }
+    catch(ex)
+    {
+        console.error("Error while trying to get buyers orders: ", ex.response);
+        handleAlert(ex.response, "error");
+        return ex.response;
+    }
+}
+
+export const GetSellersNewOrders =  async (handleAlert, token) => {
+    try{
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/seller/new-orders`,
+        {
+            headers: {
+                Authorization : `Bearer ${token}`
+            }
+        });
+        console.log(response.data);
+        return response.data;
+    }
+    catch(ex)
+    {
+        console.error("Error while trying to get seller's new orders: ", ex);
+        handleAlert(ex.response, "error");
+        return ex.response;
+    }
+}
+
+export const GetSellersOldOrders = async (handleAlert, token) => {
+    try{
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/seller/my-orders`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        console.log(response.data);
+        return response.data;
+    }
+    catch(ex)
+    {
+        console.error("Error while trying to get seller's old orders: ", ex);
+        handleAlert(ex.response, "error");
         return ex.response;
     }
 }
@@ -81,8 +138,7 @@ export const CanOrderBeCanceled = (order) => {
 
 export const IsOrderDelivered = (deliveringTime) => {
     const deliveryTime = new Date(deliveringTime);
-    const timeToBeDelivered = deliveryTime -  new Date() ;
-    console.log(timeToBeDelivered);
+    const timeToBeDelivered = deliveryTime -  new Date();
     if(timeToBeDelivered<0)
         return true;
     return false;
@@ -106,30 +162,54 @@ export const CancelOrder = async (token, orderId, handleAlert, navigate) => {
     }
     catch(ex)
     {
-        console.error("Error while trying to cancel your order: ", ex.response.data.message);
-        handleAlert(ex.response.data.message, "error");
+        console.error("Error while trying to cancel your order: ", ex.response);
+        handleAlert(ex.response, "error");
         return ex.response;
     }
 }
 
-export const GetOrderDetails = async (handleAlert,token, orderId) =>
+export const GetOrderDetails = async (handleAlert,token, orderId, userType) =>
 {
-    try{ 
-        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/order/details`,
-        {
-            params: { 
-                orderId
-            },
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
-        return response.data;
-    }
-    catch(ex)
+    console.log(`role: ${userType}`);
+    if(userType === "Seller")
     {
-        console.error("Error while trying to get orderInfo: ", ex.response);
-        handleAlert(ex.response.data.message, "error");
-        return ex.response;
+        try{ 
+            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/order/details/seller`,
+            {
+                params: { 
+                    orderId
+                },
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return response.data;
+        }
+        catch(ex)
+        {
+            console.error("Error while trying to get orderInfo: ", ex.response);
+            handleAlert(ex.response, "error");
+            return ex.response;
+        }
+    }
+    else{
+        try{ 
+            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/order/details`,
+            {
+                params: { 
+                    orderId
+                },
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return response.data;
+        }
+        catch(ex)
+        {
+            console.error("Error while trying to get orderInfo: ", ex.response);
+            handleAlert(ex.response, "error");
+            return ex.response;
+        }
     }
 }

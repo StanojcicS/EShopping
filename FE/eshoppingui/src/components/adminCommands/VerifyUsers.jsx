@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import {ToastContainer, toast} from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css'; 
 import { VerifySeller } from "../../services/UserService";
+import { Link } from "react-router-dom";
 
 export const VerifyUsers = () => {
     const [sellers, setSellers] = useState([]);
@@ -36,6 +37,10 @@ export const VerifyUsers = () => {
 
     return (
         <>
+        <ToastContainer/>
+        <Link className='link-button' to='/dashboard'>
+            <button className="back-to-dashboard-button">Dashboard</button>
+        </Link> 
         <h2 style={{color:"white"}}>Sellers verification</h2>
         <table className="verify-sellers-table">
             <tr className="verify-sellers-table-header-row">
