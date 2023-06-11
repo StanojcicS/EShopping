@@ -33,6 +33,7 @@ export const MyProfile = () => {
         setDateOfBirth(logedInUser.dateOfBirth);
         setAdress(logedInUser.adress);
         setProfilePicture(logedInUser.profilePicture); 
+        window.location.reload();
     }
 
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { AddProduct } from "../../services/ProductService";
 import {ToastContainer, toast} from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css';
@@ -27,6 +27,9 @@ export const AddNewProduct = () => {
 
     return (
         <div className="auth-form-container">
+        <Link className='link-button' to='/dashboard'>
+            <button className="back-to-dashboard-button">Dashboard</button>
+        </Link> 
         <ToastContainer/>
         <h2 style={{color:"white"}}>Add new product</h2>
         <form className="add-new-product-form" onSubmit={handleSubmit}>
